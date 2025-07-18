@@ -1,0 +1,87 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}{{ todo.title }} - Parra's Dev ToDo{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header {% if todo.completed %}bg-success text-white{% else %}bg-warning text-dark{% endif %}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4>
+                        {% if todo.completed %}
+                            <i class="fas fa-check-circle"></i> Tarea Completada
+                        {% else %}
+                            <i class="fas fa-clock"></i> Tarea Pendiente
+                        {% endif %}
+                    </h4>
+                    <span class="badge bg-light text-dark">ID: {{ todo.id }}</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <h2>{{ todo.title }}</h2>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <p><strong>Estado:</strong> 
+                            <span class="badge {% if todo.completed %}bg-success{% else %}bg-warning{% endif %}">
+                                {% if todo.completed %}Completado{% else %}Pendiente{% endif %}
+                            </span>
+                        </p>
+                        <p><strong>Creado:</strong> {{ todo.created_at|date:"d/m/Y H:i:s" }}</p>
+                        <p><strong>Última actualización:</strong> {{ todo.updated_at|date:"d/m/Y H:i:s" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Usuario:</strong> {{ todo.user.username }}</p>
+                        <p><strong>User ID:</strong> {{ todo.user.id }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'todo:todo_update' todo.pk %}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a href="{% url 'todo:todo_toggle_complete' todo.pk %}" class="btn btn-{% if todo.completed %}warning{% else %}success{% endif %}">
+                        {% if todo.completed %}
+                            <i class="fas fa-undo"></i> Marcar como Pendiente
+                        {% else %}
+                            <i class="fas fa-check"></i> Marcar como Completado
+                        {% endif %}
+                    </a>
+                    <a href="{% url 'todo:todo_delete' todo.pk %}" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </a>
+                </div>
+                <a href="{% url 'todo:todo_list' %}" class="btn btn-secondary ms-2">
+                    <i class="fas fa-arrow-left"></i> Volver a la Lista
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h5><i class="fas fa-info-circle"></i> Información</h5>
+            </div>
+            <div class="card-body">
+                <p class="small text-muted">
+                    Esta tarea pertenece al usuario <strong>{{ todo.user.username }}</strong> 
+                    y fue creada el {{ todo.created_at|date:"d de F de Y" }}.
+                </p>
+                
+                {% if todo.completed %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> Esta tarea ha sido completada exitosamente.
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-clock"></i> Esta tarea está pendiente de completar.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}Pendientes ID y UserID - Parra's Dev ToDo{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4><i class="fas fa-clock"></i> Lista de pendientes sin resolver (ID y userID)</h4>
+            </div>
+            <div class="card-body">
+                {% if todos %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for todo in todos %}
+                                <tr>
+                                    <td>{{ todo.id }}</td>
+                                    <td>{{ todo.user_id }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-muted">Total de registros: {{ todos|length }}</p>
+                {% else %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> ¡Excelente! No hay pendientes sin resolver.
+                    </div>
+                {% endif %}
+                
+                <div class="mt-3">
+                    <a href="{% url 'todo:home' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver al Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

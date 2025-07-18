@@ -1,0 +1,143 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}Inicio - Parra's Dev ToDo{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="jumbotron bg-primary text-white rounded p-5 mb-4">
+            <h1 class="display-4">
+                <i class="fas fa-tasks"></i> Bienvenido a Parra's Dev ToDo
+            </h1>
+            <p class="lead">
+                Sistema de gestión de pendientes para Parra's Dev. 
+                Organiza tus tareas de manera eficiente y mejora tu productividad.
+            </p>
+            {% if not user.is_authenticated %}
+            <hr class="my-4">
+            <p>Para comenzar, inicia sesión o crea una cuenta nueva.</p>
+            <a class="btn btn-light btn-lg" href="{% url 'todo:login' %}" role="button">
+                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+            </a>
+            <a class="btn btn-outline-light btn-lg ms-2" href="{% url 'todo:register' %}" role="button">
+                <i class="fas fa-user-plus"></i> Registrarse
+            </a>
+            {% else %}
+            <hr class="my-4">
+            <p>¡Hola {{ user.username }}! Comienza gestionando tus tareas.</p>
+            <a class="btn btn-light btn-lg" href="{% url 'todo:todo_list' %}" role="button">
+                <i class="fas fa-list"></i> Ver Mis Tareas
+            </a>
+            <a class="btn btn-outline-light btn-lg ms-2" href="{% url 'todo:todo_create' %}" role="button">
+                <i class="fas fa-plus"></i> Nueva Tarea
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+<div class="row">
+    <div class="col-md-12">
+        <h2><i class="fas fa-list-ul"></i> Listas Disponibles</h2>
+        <p class="text-muted">Accede a diferentes vistas de los pendientes según tus necesidades:</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-info text-white">
+                <h5><i class="fas fa-hashtag"></i> Listas por ID</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="{% url 'todo:todos_ids_only' %}" class="text-decoration-none">
+                            <i class="fas fa-arrow-right"></i> Solo IDs
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'todo:todos_ids_titles' %}" class="text-decoration-none">
+                            <i class="fas fa-arrow-right"></i> IDs y Títulos
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'todo:todos_ids_userids' %}" class="text-decoration-none">
+                            <i class="fas fa-arrow-right"></i> IDs y UserIDs
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h5><i class="fas fa-check-circle"></i> Completados</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="{% url 'todo:todos_completed_id_title' %}" class="text-decoration-none">
+                            <i class="fas fa-arrow-right"></i> ID y Título
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'todo:todos_completed_id_userid' %}" class="text-decoration-none">
+                            <i class="fas fa-arrow-right"></i> ID y UserID
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-warning text-dark">
+                <h5><i class="fas fa-clock"></i> Pendientes</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="{% url 'todo:todos_pending_id_title' %}" class="text-decoration-none">
+                            <i class="fas fa-arrow-right"></i> ID y Título
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'todo:todos_pending_id_userid' %}" class="text-decoration-none">
+                            <i class="fas fa-arrow-right"></i> ID y UserID
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h5><i class="fas fa-info-circle"></i> Acerca de Parra's Dev ToDo</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Esta aplicación web resuelve el problema de la pizarra de pendientes para Parra's Dev.
+                    Permite gestionar una lista completa de tareas (ToDo) con las siguientes características:
+                </p>
+                <ul>
+                    <li>Gestión completa de tareas (CRUD)</li>
+                    <li>Diferentes vistas de listado según necesidades específicas</li>
+                    <li>Sistema de autenticación de usuarios</li>
+                    <li>Interfaz moderna y responsiva</li>
+                    <li>Información confiable para la toma de decisiones</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
